@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+        I             1
+        V             5
+        X             10
+        L             50
+        C             100
+        D             500
+        M             1000
+        */
+        const romeMap = {
+            'I' : 1,
+            'V' : 5,
+            'X' : 10,
+            'L' : 50,
+            'C' : 100,
+            'D' : 500,
+            'M' : 1000,
+            'IV': 4,
+            'IX': 9,
+            'XL': 40,
+            'XC': 90,
+            'CD': 400,
+            'CM': 900
+        }
+
+        function romanToInt(s) {
+            // 切割输入的罗马数字，把每个罗马数字对应的整数取出来，并把他们转换成数字数组
+            return s.split(/(IV|IX|XL|XC|CD|CM)+?/g)
+            .map(rome => { // 对照 map 表中的属性查找对应值，组成一个数组
+                const nValue = romeMap[rome] 
+                if(!nValue) { // 如果没有找到对应的值，继续切割属性
+                    return rome.split('').map(val => romeMap[val])
+                }
+                return nValue
+            })
+            .flat(Infinity) // 数组降维
+            .reduce((sum, val) => sum + val) // 累加
+        }
+
+        let result = romanToInt('MCMXCIV')
+        console.log(result);
+        
+    </script>
+</body>
+</html>

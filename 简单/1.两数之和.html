@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		// 给定一个数组跟一个目标值，查找出数组中的任意两个值相加等于目标值并返回者两个值的数组下标
+		// nums = [1, 10, 52, 32] target = 53 返回 [0, 2]
+		let nums = [2, 7, 11, 15]
+		let target = 9
+
+
+		// 第一种方法，效率：低
+		function sumOfTwoNumbers1(array, sum) {
+			if(Array.isArray(array)) {
+				for(let i = 0; i<array.length; i++) {
+					for(let j = 1; j<array.length; j++) {
+						if(array[i] === array[j]) continue
+						if(array[i] + array[j] === sum) {
+							return [i, j]
+						}
+					}
+				}
+			}
+		}
+
+		// 第二种方法，效率：中
+		function sumOfTwoNumbers2(array, sum) {
+			if(Array.isArray(array)) {
+				let result = []
+				let arrMap = new Map()
+				array.forEach((value, index) => {
+					arrMap.set(value, index) // 并数组中的每一个下标和对应的值存入哈希表中
+				})
+				for(let i = 0; i<array.length; i++) {
+					// 循环取出数组中的每个值，得出目标值 减去 当前值 的结果值
+					let complement = target - array[i]
+					// 循环查找哈希表中是否有这个值，并返回对应的key值
+					if(arrMap.has(complement)) {
+						result =  [arrMap.get(complement), i]
+					}
+				}
+
+				return result.sort()
+			}
+		}
+
+		// 第三种方法，效率：高
+		function sumOfTwoNumbers3(array, sum) {
+			if(Array.isArray(array)) {
+				let result = []
+				let arrMap = new Map()
+				array.forEach((value, index) => {
+					// 一边存入哈希表，一边对比当前哈希表中是否有符合要求的值
+					arrMap.forEach((mValue, mKey) => {
+						let complement = target - value
+						if(mValue === complement) {
+							result = [index, mKey]
+						}
+					})
+					arrMap.set(index, value)
+				})
+				
+
+				return result.sort()
+			}
+		}
+
+		// 第四种方法：效率最高
+		function sumOfTwoNumbers4(nums, target) {
+			const hash = {}
+			for (let i = 0; i < nums.length; i++) {
+				if (hash[target - nums[i]]) {
+					return [hash[target - nums[i]].index, i]
+				} else {
+					hash[nums[i]] = {
+						index: i
+					}
+				}
+			}
+			hash = null
+		};
+
+		let indexArray1 = sumOfTwoNumbers1(nums, target)
+		console.log(indexArray1);
+		let indexArray2 = sumOfTwoNumbers2(nums, target)
+		console.log(indexArray2);
+		let indexArray3 = sumOfTwoNumbers3(nums, target)
+		console.log(indexArray3);
+		let indexArray4 = sumOfTwoNumbers4(nums, target)
+		console.log(indexArray4);
+		
+	</script>
+</body>
+
+</html>

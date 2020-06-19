@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let num = -12356580
+        let result
+
+        // 第一种方法 效率低 繁琐
+        function reverse(number) {
+                let str = new String(num)       
+                let arr = str.split('')
+                let section = [Math.pow(-2, 31), Math.pow(2, 31) - 1]
+                if(arr[0] === '-') {
+                    // 把负号去掉
+                    arr.shift()
+                    let reverseStr = arrReverse(arr)
+                    if(-reverseStr < section[0] || -reverseStr > section[1]) {
+                        return 0
+                    } else {
+                        return -reverseStr
+                    }
+                }else {
+                    let reverseStr = arrReverse(arr)
+
+                    if(Number(reverseStr) < section[0] || Number(reverseStr) > section[1]) {
+                        return 0
+                    } else {
+                        return Number(reverseStr)
+                    }
+                }
+                function arrReverse(arr) {
+                    
+                    let reverseStr = arr.reverse().toString().replace(/(,?)/g, '')
+                    if(reverseStr.startsWith('0')) {
+                        reverseStr = reverseStr.slice(1)
+                    }
+                    return reverseStr
+                }
+        }
+
+        // result = reverse(num)
+        // console.log(result);
+        
+        // 第二种方法 效率高 反转常规方式
+        let numReverse = function(num) {
+            let tem = 0
+            if(num > (Math.pow(2, 31) - 1) || num < Math.pow(-2, 31)) return 0
+            while(num != 0) {
+                tem = tem * 10 + num % 10
+                num = ~~ (num / 10)
+            }
+            return tem
+        }
+
+        console.log(numReverse(-1230));
+        
+    </script>
+</body>
+</html>

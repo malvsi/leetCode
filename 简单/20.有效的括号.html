@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 先把左边括号存入数组中，字符串中第一个右边括号所对应的左括号一定是在数组的最后一项
+         * 每一个右边括号匹配到对应的左边括号就从数组中 pop() 删除
+        */
+        // let str = '({})'
+        let str = '{}()'
+        // let str = "(()("
+        // let str = ''
+        // let str = "(]"
+
+        var isValid = function(s) {
+            if(!s.length) return true
+            if(s.length % 2 !== 0) return false
+            let surs = []
+            const map = {
+                '}': '{',
+                ')': '(',
+                ']': '['
+            }
+            for(let i = 0; i < s.length; i++) {
+                const sur = s[i]
+                if(map[sur]) {
+                    const pop = surs.pop()
+                    if(map[sur] !== pop) return false
+                } else {
+                    surs.push(sur)
+                }
+            }      
+            return surs.length === 0          
+        };
+
+        let result = isValid(str)
+        console.log(result);
+        
+    </script>
+</body>
+</html>
